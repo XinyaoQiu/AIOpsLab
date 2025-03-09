@@ -82,3 +82,31 @@ class GPT4Turbo:
             self.cache.add_to_cache(payload, response)
             self.cache.save_cache()
         return response
+
+class T5Turbo:
+    """Abstraction for Google's T5 model."""
+
+    def __init__(self, model_name: str = "t5-base"):
+        self.tokenizer = T5Tokenizer.from_pretrained(model_name)
+        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
+        self.cache = Cache()
+
+    def inference(self, input_text: str, max_length: int = 512) -> str:
+        if self.cache is not None:
+            cache_result = self.cache.get_from_cache(input_text)
+            if cache_result is not None:
+                return cache_result
+
+        inputs = self.tokenizer(input_text, return_tensors="pt", padding=True, truncation=True)
+        with torch.no_grad():
+            output = self.model.generate(**inputs, max_length=max_length)
+        result = self.tokenizer.decode(output[0], skip_special_tokens=True)
+        
+        return result
+
+    def run(self, input_text: str) -> str:
+        response = self.inference(input_text)
+        if self.cache is not None:
+            self.cache.add_to_cache(input_text, response)
+            self.cache.save_cache()
+        return response
