@@ -19,6 +19,7 @@ class Agent:
     def __init__(self, azure_config_file: str):
         self.history = []
         self.llm = GPT4Turbo(auth_type="managed", azure_config_file=azure_config_file)
+        self.data_log = []
 
     def init_context(self, problem_desc: str, instructions: str, apis: str):
         """Initialize the context for the agent."""
@@ -51,12 +52,23 @@ class Agent:
         """
         self.history.append({"role": "user", "content": input})
         response = self.llm.run(self.history)
+        
+        self.data_log.append({
+            "prompt": self.history[-1]["content"],  # Last user input
+            "chosen": response[0],  # Assume this is the best response for now
+            "rejected": "INVALID_ACTION"  # Placeholder; update with real bad responses
+        })
+        
         self.history.append({"role": "assistant", "content": response[0]})
         return response[0]
 
     def _filter_dict(self, dictionary, filter_func):
         return {k: v for k, v in dictionary.items() if filter_func(k, v)}
 
+    def save_data(self, file="training_data.json"):
+        """Saves logged interactions for training DPO."""
+        with open(file, "w") as f:
+            json.dump(self.data_log, f, indent=4)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
