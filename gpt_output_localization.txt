@@ -1,0 +1,164 @@
+Session ID: d2dcc15d-bb84-4112-820b-7125ac1ad8ca
+Namespace test-hotel-reservation not found. Creating namespace.
+Namespace test-hotel-reservation created successfully: namespace/test-hotel-reservation created
+
+ConfigMap 'mongo-rate-script' created in namespace 'test-hotel-reservation'
+ConfigMap 'mongo-geo-script' created in namespace 'test-hotel-reservation'
+ConfigMap 'failure-admin-rate' created in namespace 'test-hotel-reservation'
+ConfigMap 'failure-admin-geo' created in namespace 'test-hotel-reservation'
+Setting up OpenEBS...
+OpenEBS is already running. Skipping installation.
+Prometheus is already running. Skipping redeployment.
+No resources found in: test-hotel-reservation. Skipping deletion.
+Deploying Kubernetes configurations in namespace: test-hotel-reservation
+[16:02:56] Waiting for all pods in namespace 'test-hotel-reservation' to be ready...                                                                                                                                                       kubectl.py:64
+[16:03:04] All pods in namespace 'test-hotel-reservation' are ready.                                                                                                                                                                       kubectl.py:83
+== Fault Injection ==
+Service: geo | Namespace: test-hotel-reservation
+
+== Start Workload ==
+Checking for existing ConfigMap 'wrk2-payload-script'...
+ConfigMap 'wrk2-payload-script' deleted.
+Creating ConfigMap 'wrk2-payload-script'...
+ConfigMap 'wrk2-payload-script' created successfully.
+Job 'wrk2-job' already exists. Deleting it...
+Job created: wrk2-job
+Job failed.
+[INFO] Running command inside kind-control-plane Docker container.
+NAME                                      READY   STATUS    RESTARTS      AGE
+consul-b84877fb4-sgvvq                    1/1     Running   0             35s
+frontend-69d95967fb-f5mrn                 1/1     Running   0             35s
+geo-6b4b89b5f5-d46hm                      0/1     Error     1 (13s ago)   25s
+jaeger-67445b6dd6-wfk9d                   1/1     Running   0             35s
+memcached-profile-66bb9c8b9d-z4ncm        1/1     Running   0             35s
+memcached-rate-68585796cb-dt4jt           1/1     Running   0             34s
+memcached-reserve-646c7dcd6b-hbmj6        1/1     Running   0             33s
+mongodb-geo-5ff578bcb8-dxdk5              1/1     Running   0             35s
+mongodb-profile-758cb77f9f-pppdn          1/1     Running   0             35s
+mongodb-rate-56cc8659c9-vgnv5             1/1     Running   0             34s
+mongodb-recommendation-55699465f7-vbk4r   1/1     Running   0             34s
+mongodb-reservation-5994859869-h2b8x      1/1     Running   0             33s
+mongodb-user-969c6c449-mh75x              1/1     Running   0             32s
+profile-676fcc86d5-pcslb                  1/1     Running   0             35s
+rate-c9bc58c85-jjsqp                      1/1     Running   0             34s
+recommendation-8675c6c9ff-k8xzs           1/1     Running   0             34s
+reservation-7699b8fdd4-rjjsk              1/1     Running   0             33s
+search-65df96d8df-7km87                   1/1     Running   0             33s
+user-8477d787d8-ds4w8                     1/1     Running   0             32s
+
+[INFO] Running command inside kind-control-plane Docker container.
+Name:             geo-6b4b89b5f5-d46hm
+Namespace:        test-hotel-reservation
+Priority:         0
+Service Account:  default
+Node:             kind-worker/172.19.0.3
+Start Time:       Thu, 06 Mar 2025 22:03:04 +0000
+Labels:           io.kompose.service=geo
+                  pod-template-hash=6b4b89b5f5
+Annotations:      kompose.cmd: kompose convert
+                  kompose.version: 1.22.0 (955b78124)
+                  sidecar.istio.io/statsInclusionPrefixes:
+                    cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager
+                  sidecar.istio.io/statsInclusionRegexps: http.*
+Status:           Running
+IP:               10.244.1.93
+IPs:
+  IP:           10.244.1.93
+Controlled By:  ReplicaSet/geo-6b4b89b5f5
+Containers:
+  hotel-reserv-geo:
+    Container ID:  containerd://105e2994e3c942d840160ce8fb68549893fe7eff976bcaba0362c652aad4ff62
+    Image:         yinfangchen/geo:app3
+    Image ID:      docker.io/yinfangchen/geo@sha256:bc56ea15136b8d1330e9433bd7cba225882e635e5e4ee071be6ad9510032bb39
+    Port:          8083/TCP
+    Host Port:     0/TCP
+    Command:
+      geo
+    State:          Terminated
+      Reason:       Error
+      Exit Code:    2
+      Started:      Thu, 06 Mar 2025 22:03:18 +0000
+      Finished:     Thu, 06 Mar 2025 22:03:26 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    2
+      Started:      Thu, 06 Mar 2025 22:03:05 +0000
+      Finished:     Thu, 06 Mar 2025 22:03:16 +0000
+    Ready:          False
+    Restart Count:  1
+    Limits:
+      cpu:  1
+    Requests:
+      cpu:  100m
+    Environment:
+      JAEGER_SAMPLE_RATIO:  1
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jp7gj (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-jp7gj:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  25s                default-scheduler  Successfully assigned test-hotel-reservation/geo-6b4b89b5f5-d46hm to kind-worker
+  Normal   Pulled     25s                kubelet            Successfully pulled image "yinfangchen/geo:app3" in 722ms (722ms including waiting). Image size: 447578122 bytes.
+  Normal   Pulling    14s (x2 over 26s)  kubelet            Pulling image "yinfangchen/geo:app3"
+  Normal   Created    13s (x2 over 25s)  kubelet            Created container: hotel-reserv-geo
+  Normal   Pulled     13s                kubelet            Successfully pulled image "yinfangchen/geo:app3" in 976ms (976ms including waiting). Image size: 447578122 bytes.
+  Normal   Started    12s (x2 over 25s)  kubelet            Started container hotel-reserv-geo
+  Warning  BackOff    4s                 kubelet            Back-off restarting failed container hotel-reserv-geo in pod geo-6b4b89b5f5-d46hm_test-hotel-reservation(625ec7e0-b19e-4af3-b3a1-bc7f0d2bdec0)
+
+[INFO] Running command inside kind-control-plane Docker container.
+{"level":"info","time":"2025-03-06T22:03:18Z","message":"TLS disabled."}
+{"level":"info","time":"2025-03-06T22:03:18Z","message":"Set global log level: info"}
+{"level":"info","time":"2025-03-06T22:03:18Z","message":"Tune: setGCPercent to 100"}
+[90m2025-03-06T22:03:18Z[0m [32mINF[0m [1mcmd/geo/main.go:23[0m[36m >[0m [1mReading config...[0m
+[90m2025-03-06T22:03:18Z[0m [32mINF[0m [1mcmd/geo/main.go:36[0m[36m >[0m [1mRead database URL: mongodb-geo:27777[0m
+[90m2025-03-06T22:03:18Z[0m [32mINF[0m [1mcmd/geo/main.go:37[0m[36m >[0m [1mInitializing DB connection...[0m
+[90m2025-03-06T22:03:26Z[0m [31mPNC[0m [1mcmd/geo/db.go:26[0m[36m >[0m [1mno reachable servers[0m
+panic: no reachable servers
+
+goroutine 1 [running]:
+github.com/rs/zerolog.(*Logger).Panic.func1({0x96e211, 0x0})
+	/go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/log.go:405 +0x2d
+github.com/rs/zerolog.(*Event).msg(0xc00021c000, {0x96e211, 0x14})
+	/go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/event.go:158 +0x2b8
+github.com/rs/zerolog.(*Event).Msg(...)
+	/go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/event.go:110
+main.initializeDatabase({0xc000028288, 0xc000093dd0})
+	/go/src/github.com/harlow/go-micro-services/cmd/geo/db.go:26 +0x167
+main.main()
+	/go/src/github.com/harlow/go-micro-services/cmd/geo/main.go:38 +0x877
+
+== Evaluation ==
+Subset match: ['geo'] | Accuracy: 100.00%
+[35mResults:
+[0m{'Localization Accuracy': 100.0, 'TTL': 3.8685178756713867, 'steps': 4, 'in_tokens': 2184, 'out_tokens': 85, 'success': True, 'is_subset': True}
+== Fault Recovery ==
+Service: geo | Namespace: test-hotel-reservation
+
+[16:03:38] Waiting for namespace 'test-hotel-reservation' to be deleted...                                                                                                                                                                 kubectl.py:98
+[16:03:49] Namespace 'test-hotel-reservation' has been deleted.                                                                                                                                                                           kubectl.py:107
+Namespace 'test-hotel-reservation' deleted successfully.
+Deleted PersistentVolume geo-pv: persistentvolume "geo-pv" deleted
+Deleted PersistentVolume profile-pv: persistentvolume "profile-pv" deleted
+Deleted PersistentVolume rate-pv: persistentvolume "rate-pv" deleted
+Deleted PersistentVolume recommendation-pv: persistentvolume "recommendation-pv" deleted
+Deleted PersistentVolume reservation-pv: persistentvolume "reservation-pv" deleted
+Deleted PersistentVolume user-pv: persistentvolume "user-pv" deleted
+Framework overhead: 70.64714169502258

@@ -1,0 +1,239 @@
+Session ID: 1cac1c4d-f2b1-4bf9-86d9-9443eeb8e99d
+Namespace test-hotel-reservation already exists.
+ConfigMap 'mongo-rate-script' updated in namespace 'test-hotel-reservation'
+ConfigMap 'mongo-geo-script' updated in namespace 'test-hotel-reservation'
+ConfigMap 'failure-admin-rate' updated in namespace 'test-hotel-reservation'
+ConfigMap 'failure-admin-geo' updated in namespace 'test-hotel-reservation'
+Setting up OpenEBS...
+OpenEBS is already running. Skipping installation.
+Prometheus is already running. Skipping redeployment.
+Deleting K8S configs in namespace: test-hotel-reservation
+Deploying Kubernetes configurations in namespace: test-hotel-reservation
+[15:36:55] Waiting for all pods in namespace 'test-hotel-reservation' to be ready...                                                                                                                                                                          kubectl.py:64
+[15:37:03] All pods in namespace 'test-hotel-reservation' are ready.                                                                                                                                                                                          kubectl.py:83
+== Fault Injection ==
+Service: geo | Namespace: test-hotel-reservation
+
+== Start Workload ==
+Checking for existing ConfigMap 'wrk2-payload-script'...
+ConfigMap 'wrk2-payload-script' deleted.
+Creating ConfigMap 'wrk2-payload-script'...
+ConfigMap 'wrk2-payload-script' created successfully.
+Job 'wrk2-job' already exists. Deleting it...
+Job created: wrk2-job
+Job completed successfully.
+[INFO] Running command inside kind-control-plane Docker container.
+NAME                                      READY   STATUS    RESTARTS      AGE
+consul-b84877fb4-5nlrm                    1/1     Running   0             36s
+frontend-69d95967fb-cjt9x                 1/1     Running   0             36s
+geo-6b4b89b5f5-9xlrz                      0/1     Error     1 (15s ago)   27s
+jaeger-67445b6dd6-s29cd                   1/1     Running   0             36s
+memcached-profile-66bb9c8b9d-sjjj4        1/1     Running   0             36s
+memcached-rate-68585796cb-scxzh           1/1     Running   0             36s
+memcached-reserve-646c7dcd6b-lb8lb        1/1     Running   0             35s
+mongodb-geo-5ff578bcb8-djrpr              1/1     Running   0             36s
+mongodb-profile-758cb77f9f-b7pjk          1/1     Running   0             36s
+mongodb-rate-56cc8659c9-ml68x             1/1     Running   0             36s
+mongodb-recommendation-55699465f7-vh776   1/1     Running   0             35s
+mongodb-reservation-5994859869-8h77c      1/1     Running   0             35s
+mongodb-user-969c6c449-xl2zl              1/1     Running   0             34s
+profile-676fcc86d5-j28fn                  1/1     Running   0             36s
+rate-c9bc58c85-p6d4z                      1/1     Running   0             36s
+recommendation-8675c6c9ff-4869z           1/1     Running   0             35s
+reservation-7699b8fdd4-qc6nb              1/1     Running   0             34s
+search-65df96d8df-vgfh5                   1/1     Running   0             34s
+user-8477d787d8-lbq46                     1/1     Running   0             34s
+
+[INFO] Running command inside kind-control-plane Docker container.
+{"level":"info","time":"2025-03-06T21:37:17Z","message":"TLS disabled."}
+2025-03-06T21:37:17Z INF cmd/geo/main.go:23 > Reading config...
+{"level":"info","time":"2025-03-06T21:37:17Z","message":"Set global log level: info"}
+{"level":"info","time":"2025-03-06T21:37:17Z","message":"Tune: setGCPercent to 100"}
+2025-03-06T21:37:17Z INF cmd/geo/main.go:36 > Read database URL: mongodb-geo:27777
+2025-03-06T21:37:17Z INF cmd/geo/main.go:37 > Initializing DB connection...
+2025-03-06T21:37:25Z PNC cmd/geo/db.go:26 > no reachable servers
+panic: no reachable servers
+
+goroutine 1 [running]:
+github.com/rs/zerolog.(*Logger).Panic.func1({0x96e211, 0x0})
+        /go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/log.go:405 +0x2d
+github.com/rs/zerolog.(*Event).msg(0xc00021a000, {0x96e211, 0x14})
+        /go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/event.go:158 +0x2b8
+github.com/rs/zerolog.(*Event).Msg(...)
+        /go/src/github.com/harlow/go-micro-services/vendor/github.com/rs/zerolog/event.go:110
+main.initializeDatabase({0xc000028288, 0xc000093dd0})
+        /go/src/github.com/harlow/go-micro-services/cmd/geo/db.go:26 +0x167
+main.main()
+        /go/src/github.com/harlow/go-micro-services/cmd/geo/main.go:38 +0x877
+
+[INFO] Running command inside kind-control-plane Docker container.
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                                                       AGE
+consul                   ClusterIP   10.96.138.204   <none>        8300/TCP,8400/TCP,8500/TCP,8600/UDP                                           38s
+frontend                 ClusterIP   10.96.10.20     <none>        5000/TCP                                                                      38s
+geo                      ClusterIP   10.96.181.31    <none>        8083/TCP                                                                      38s
+jaeger                   ClusterIP   10.96.227.254   <none>        14269/TCP,5778/TCP,14268/TCP,14267/TCP,16686/TCP,5775/UDP,6831/UDP,6832/UDP   38s
+jaeger-out               NodePort    10.96.193.11    <none>        16686:30629/TCP                                                               38s
+memcached-profile        ClusterIP   10.96.81.172    <none>        11211/TCP                                                                     38s
+memcached-rate           ClusterIP   10.96.200.188   <none>        11211/TCP                                                                     38s
+memcached-reserve        ClusterIP   10.96.166.75    <none>        11211/TCP                                                                     38s
+mongodb-geo              ClusterIP   10.96.78.55     <none>        27017/TCP                                                                     38s
+mongodb-profile          ClusterIP   10.96.153.43    <none>        27017/TCP                                                                     38s
+mongodb-rate             ClusterIP   10.96.192.78    <none>        27017/TCP                                                                     38s
+mongodb-recommendation   ClusterIP   10.96.240.32    <none>        27017/TCP                                                                     38s
+mongodb-reservation      ClusterIP   10.96.227.153   <none>        27017/TCP                                                                     38s
+mongodb-user             ClusterIP   10.96.155.134   <none>        27017/TCP                                                                     37s
+profile                  ClusterIP   10.96.190.173   <none>        8081/TCP                                                                      38s
+rate                     ClusterIP   10.96.191.193   <none>        8084/TCP                                                                      38s
+recommendation           ClusterIP   10.96.67.243    <none>        8085/TCP                                                                      38s
+reservation              ClusterIP   10.96.148.42    <none>        8087/TCP                                                                      37s
+search                   ClusterIP   10.96.39.23     <none>        8082/TCP                                                                      37s
+user                     ClusterIP   10.96.217.184   <none>        8086/TCP                                                                      37s
+
+[INFO] Running command inside kind-control-plane Docker container.
+NAME                                      READY   STATUS    RESTARTS      AGE   IP            NODE          NOMINATED NODE   READINESS GATES
+consul-b84877fb4-5nlrm                    1/1     Running   0             39s   10.244.1.51   kind-worker   <none>           <none>
+frontend-69d95967fb-cjt9x                 1/1     Running   0             39s   10.244.1.52   kind-worker   <none>           <none>
+geo-6b4b89b5f5-9xlrz                      0/1     Error     1 (18s ago)   30s   10.244.1.70   kind-worker   <none>           <none>
+jaeger-67445b6dd6-s29cd                   1/1     Running   0             39s   10.244.1.55   kind-worker   <none>           <none>
+memcached-profile-66bb9c8b9d-sjjj4        1/1     Running   0             39s   10.244.1.56   kind-worker   <none>           <none>
+memcached-rate-68585796cb-scxzh           1/1     Running   0             39s   10.244.1.60   kind-worker   <none>           <none>
+memcached-reserve-646c7dcd6b-lb8lb        1/1     Running   0             38s   10.244.1.63   kind-worker   <none>           <none>
+mongodb-geo-5ff578bcb8-djrpr              1/1     Running   0             39s   10.244.1.54   kind-worker   <none>           <none>
+mongodb-profile-758cb77f9f-b7pjk          1/1     Running   0             39s   10.244.1.64   kind-worker   <none>           <none>
+mongodb-rate-56cc8659c9-ml68x             1/1     Running   0             39s   10.244.1.58   kind-worker   <none>           <none>
+mongodb-recommendation-55699465f7-vh776   1/1     Running   0             38s   10.244.1.61   kind-worker   <none>           <none>
+mongodb-reservation-5994859869-8h77c      1/1     Running   0             38s   10.244.1.65   kind-worker   <none>           <none>
+mongodb-user-969c6c449-xl2zl              1/1     Running   0             37s   10.244.1.68   kind-worker   <none>           <none>
+profile-676fcc86d5-j28fn                  1/1     Running   0             39s   10.244.1.57   kind-worker   <none>           <none>
+rate-c9bc58c85-p6d4z                      1/1     Running   0             39s   10.244.1.59   kind-worker   <none>           <none>
+recommendation-8675c6c9ff-4869z           1/1     Running   0             38s   10.244.1.62   kind-worker   <none>           <none>
+reservation-7699b8fdd4-qc6nb              1/1     Running   0             37s   10.244.1.66   kind-worker   <none>           <none>
+search-65df96d8df-vgfh5                   1/1     Running   0             37s   10.244.1.67   kind-worker   <none>           <none>
+user-8477d787d8-lbq46                     1/1     Running   0             37s   10.244.1.69   kind-worker   <none>           <none>
+
+[INFO] Running command inside kind-control-plane Docker container.
+Name:             geo-6b4b89b5f5-9xlrz
+Namespace:        test-hotel-reservation
+Priority:         0
+Service Account:  default
+Node:             kind-worker/172.19.0.3
+Start Time:       Thu, 06 Mar 2025 21:37:03 +0000
+Labels:           io.kompose.service=geo
+                  pod-template-hash=6b4b89b5f5
+Annotations:      kompose.cmd: kompose convert
+                  kompose.version: 1.22.0 (955b78124)
+                  sidecar.istio.io/statsInclusionPrefixes:
+                    cluster.outbound,cluster_manager,listener_manager,http_mixer_filter,tcp_mixer_filter,server,cluster.xds-grp,listener,connection_manager
+                  sidecar.istio.io/statsInclusionRegexps: http.*
+Status:           Running
+IP:               10.244.1.70
+IPs:
+  IP:           10.244.1.70
+Controlled By:  ReplicaSet/geo-6b4b89b5f5
+Containers:
+  hotel-reserv-geo:
+    Container ID:  containerd://f849149b8ba62a19fe9cde22520d126259d521b43e4d3ef60cfddaa5a98486ae
+    Image:         yinfangchen/geo:app3
+    Image ID:      docker.io/yinfangchen/geo@sha256:bc56ea15136b8d1330e9433bd7cba225882e635e5e4ee071be6ad9510032bb39
+    Port:          8083/TCP
+    Host Port:     0/TCP
+    Command:
+      geo
+    State:          Terminated
+      Reason:       Error
+      Exit Code:    2
+      Started:      Thu, 06 Mar 2025 21:37:17 +0000
+      Finished:     Thu, 06 Mar 2025 21:37:25 +0000
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    2
+      Started:      Thu, 06 Mar 2025 21:37:05 +0000
+      Finished:     Thu, 06 Mar 2025 21:37:15 +0000
+    Ready:          False
+    Restart Count:  1
+    Limits:
+      cpu:  1
+    Requests:
+      cpu:  100m
+    Environment:
+      JAEGER_SAMPLE_RATIO:  1
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5j9cx (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-5j9cx:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                From               Message
+  ----     ------     ----               ----               -------
+  Normal   Scheduled  30s                default-scheduler  Successfully assigned test-hotel-reservation/geo-6b4b89b5f5-9xlrz to kind-worker
+  Normal   Pulled     29s                kubelet            Successfully pulled image "yinfangchen/geo:app3" in 876ms (876ms including waiting). Image size: 447578122 bytes.
+  Normal   Pulling    18s (x2 over 30s)  kubelet            Pulling image "yinfangchen/geo:app3"
+  Normal   Created    17s (x2 over 29s)  kubelet            Created container: hotel-reserv-geo
+  Normal   Started    17s (x2 over 29s)  kubelet            Started container hotel-reserv-geo
+  Normal   Pulled     17s                kubelet            Successfully pulled image "yinfangchen/geo:app3" in 747ms (747ms including waiting). Image size: 447578122 bytes.
+  Warning  BackOff    8s                 kubelet            Back-off restarting failed container hotel-reserv-geo in pod geo-6b4b89b5f5-9xlrz_test-hotel-reservation(512a293c-4139-4190-9e16-aa8df42c6ef1)
+
+[INFO] Running command inside kind-control-plane Docker container.
+pod "geo-6b4b89b5f5-9xlrz" deleted
+
+[INFO] Running command inside kind-control-plane Docker container.
+NAME                                      READY   STATUS    RESTARTS   AGE
+consul-b84877fb4-5nlrm                    1/1     Running   0          42s
+frontend-69d95967fb-cjt9x                 1/1     Running   0          42s
+geo-6b4b89b5f5-xv9hk                      1/1     Running   0          1s
+jaeger-67445b6dd6-s29cd                   1/1     Running   0          42s
+memcached-profile-66bb9c8b9d-sjjj4        1/1     Running   0          42s
+memcached-rate-68585796cb-scxzh           1/1     Running   0          42s
+memcached-reserve-646c7dcd6b-lb8lb        1/1     Running   0          41s
+mongodb-geo-5ff578bcb8-djrpr              1/1     Running   0          42s
+mongodb-profile-758cb77f9f-b7pjk          1/1     Running   0          42s
+mongodb-rate-56cc8659c9-ml68x             1/1     Running   0          42s
+mongodb-recommendation-55699465f7-vh776   1/1     Running   0          41s
+mongodb-reservation-5994859869-8h77c      1/1     Running   0          41s
+mongodb-user-969c6c449-xl2zl              1/1     Running   0          40s
+profile-676fcc86d5-j28fn                  1/1     Running   0          42s
+rate-c9bc58c85-p6d4z                      1/1     Running   0          42s
+recommendation-8675c6c9ff-4869z           1/1     Running   0          41s
+reservation-7699b8fdd4-qc6nb              1/1     Running   0          40s
+search-65df96d8df-vgfh5                   1/1     Running   0          40s
+user-8477d787d8-lbq46                     1/1     Running   0          40s
+
+[INFO] Running command inside kind-control-plane Docker container.
+{"level":"info","time":"2025-03-06T21:37:36Z","message":"TLS disabled."}
+{"level":"info","time":"2025-03-06T21:37:36Z","message":"Set global log level: info"}
+{"level":"info","time":"2025-03-06T21:37:36Z","message":"Tune: setGCPercent to 100"}
+2025-03-06T21:37:36Z INF cmd/geo/main.go:23 > Reading config...
+2025-03-06T21:37:36Z INF cmd/geo/main.go:36 > Read database URL: mongodb-geo:27777
+2025-03-06T21:37:36Z INF cmd/geo/main.go:37 > Initializing DB connection...
+
+== Evaluation ==
+Results:
+{'TTM': 10.890822410583496, 'steps': 9, 'in_tokens': 4597, 'out_tokens': 205, 'success': True}
+== Fault Recovery ==
+Service: geo | Namespace: test-hotel-reservation
+
+[15:37:44] Waiting for namespace 'test-hotel-reservation' to be deleted...                                            kubectl.py:98
+[15:38:00] Namespace 'test-hotel-reservation' has been deleted.                                                      kubectl.py:107
+Namespace 'test-hotel-reservation' deleted successfully.
+Deleted PersistentVolume geo-pv: persistentvolume "geo-pv" deleted
+Deleted PersistentVolume profile-pv: persistentvolume "profile-pv" deleted
+Deleted PersistentVolume rate-pv: persistentvolume "rate-pv" deleted
+Deleted PersistentVolume recommendation-pv: persistentvolume "recommendation-pv" deleted
+Deleted PersistentVolume reservation-pv: persistentvolume "reservation-pv" deleted
+Deleted PersistentVolume user-pv: persistentvolume "user-pv" deleted
+Framework overhead: 83.31786179542542
