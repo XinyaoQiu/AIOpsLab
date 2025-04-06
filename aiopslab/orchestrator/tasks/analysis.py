@@ -31,7 +31,7 @@ class AnalysisTask(Task):
             {app_summary}
 
             You will begin by analyzing the service's state and telemetry, and then submit one of two possible solutions:
-            1. dict[str, str]: A dictionary with two keys: 'system_level' and 'fault_type'.
+            1. dict[str, str]: A dictionary with three keys: 'system_level', 'fault_type' and 'root_cause'.
                 - system_level: The system level at which the fault occurred. Please choose from the following options:
                     - 'Hardware'
                     - 'Operating System'
@@ -44,7 +44,14 @@ class AnalysisTask(Task):
                     - 'Network/Storage Issue'
                     - 'Operation Error'
                     - 'Dependency Problem'
-            
+                - root_cause: The root cause of the fault. Please provide your answer as a short phrase (a few words), such as:
+                    - "missing environment variable"
+                    - "configuration file syntax error"
+                    - "database connection timeout"
+                    - "dependency version mismatch"
+                    - "authentication token expired"
+                    - "OOM killed due to memory leak"
+
             2. str: `None` if no faults were detected
             """
 

@@ -16,6 +16,11 @@ from aiopslab.paths import TARGET_MICROSERVICES
 
 from .helpers import get_frontend_url
 
+from math import log
+from sentence_transformers import SentenceTransformer, util
+
+
+
 
 class MisconfigAppHotelResBaseTask:
     def __init__(self):
@@ -27,6 +32,12 @@ class MisconfigAppHotelResBaseTask:
             TARGET_MICROSERVICES
             / "hotelReservation/wrk2/scripts/hotel-reservation/mixed-workload_type_1.lua"
         )
+        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    def semantic_similarity(self, agent_answer: str, human_answer: str) -> float:
+        emb1 = self.model.encode(agent_answer, convert_to_tensor=True)
+        emb2 = self.model.encode(human_answer, convert_to_tensor=True)
+        return float(util.pytorch_cos_sim(emb1, emb2)[0][0])  # returns value between 0 and 1
 
     def start_workload(self):
         print("== Start Workload ==")
@@ -119,6 +130,12 @@ class MisconfigAppHotelResLocalization(MisconfigAppHotelResBaseTask, Localizatio
         self.results["success"] = is_exact or (is_sub and len(soln) == 1)
         self.results["is_subset"] = is_sub
 
+        CS = accuracy / 100.0 # Correctness Score
+        ES = 1 / (log(self.results['TTL'] + 1) + log(self.results['steps'] + 1)) # Efficiency Score
+        TCS = 1 / log(self.results['in_tokens'] + self.results['out_tokens'] + 1) # Token Cost Score
+
+        self.results["score"] = 0.8 * CS + 0.1 * ES + 0.1 * TCS
+
         return self.results
 
 
@@ -149,6 +166,15 @@ class MisconfigAppHotelResAnalysis(MisconfigAppHotelResBaseTask, AnalysisTask):
         self.results["system_level_correct"] = is_sys_level_correct
         self.results["fault_type_correct"] = is_fault_type_correct
         self.results["success"] = is_sys_level_correct and is_fault_type_correct
+        self.results["similarity"] = self.semantic_similarity(soln.get("root_cause", ""), "configuration file syntax error")
+
+
+        CS = 1.0 if self.results["success"] else 0.0 # Correctness Score
+        SS = (self.results["similarity"] + 1) / 2.0 # Similarity Score
+        ES = 1 / (log(self.results['TTA'] + 1) + log(self.results['steps'] + 1)) # Efficiency Score
+        TCS = 1 / log(self.results['in_tokens'] + self.results['out_tokens'] + 1) # Token Cost Score
+
+        self.results["score"] = 0.5 * CS + 0.3 * SS + 0.1 * ES + 0.1 * TCS
 
         super().eval(soln, trace, duration)
 
