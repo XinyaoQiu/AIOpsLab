@@ -4,7 +4,7 @@
 """An common abstraction for a cached LLM inference setup. Currently supports OpenAI's gpt-4-turbo."""
 
 import os
-from openai import OpenAI
+#from openai import OpenAI
 from pathlib import Path
 import json
 
