@@ -9,9 +9,16 @@ Paper: https://arxiv.org/abs/2303.08774
 
 import asyncio
 
+from utils.llm import GPT4Turbo
+from utils.templates import DOCS_SHELL_ONLY
+import sys
+import os
+import dpo_trainer
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
 from aiopslab.orchestrator import Orchestrator
-from clients.utils.llm import GPT4Turbo
-from clients.utils.templates import DOCS_SHELL_ONLY
 
 
 class Agent:
@@ -58,6 +65,9 @@ class Agent:
 
 
 if __name__ == "__main__":
+    
+    print("test")
+    
     agent = Agent()
 
     orchestrator = Orchestrator()
@@ -66,4 +76,8 @@ if __name__ == "__main__":
     pid = "misconfig_app_hotel_res-mitigation-1"
     problem_desc, instructs, apis = orchestrator.init_problem(pid)
     agent.init_context(problem_desc, instructs, apis)
-    asyncio.run(orchestrator.start_problem(max_steps=10))
+    result = asyncio.run(orchestrator.start_problem(max_steps=10))
+    
+    agent.history.append(result)
+    
+    dpo_trainer.train(agent.history)
