@@ -106,6 +106,7 @@ class MisconfigAppHotelResLocalization(MisconfigAppHotelResBaseTask, Localizatio
             self.add_result("Localization Accuracy", 0.0)
             self.results["success"] = False
             self.results["is_subset"] = False
+            self.results["accuracy"] = 0.0
             super().eval(soln, trace, duration)
             return self.results
 
@@ -129,12 +130,7 @@ class MisconfigAppHotelResLocalization(MisconfigAppHotelResBaseTask, Localizatio
 
         self.results["success"] = is_exact or (is_sub and len(soln) == 1)
         self.results["is_subset"] = is_sub
-
-        CS = accuracy / 100.0 # Correctness Score
-        ES = 1 / (log(self.results['TTL'] + 1) + log(self.results['steps'] + 1)) # Efficiency Score
-        TCS = 1 / log(self.results['in_tokens'] + self.results['out_tokens'] + 1) # Token Cost Score
-
-        self.results["score"] = 0.8 * CS + 0.1 * ES + 0.1 * TCS
+        self.results["accuracy"] = accuracy / 100.0
 
         return self.results
 
@@ -153,6 +149,7 @@ class MisconfigAppHotelResAnalysis(MisconfigAppHotelResBaseTask, AnalysisTask):
             self.results["system_level_correct"] = False
             self.results["fault_type_correct"] = False
             self.results["success"] = False
+            self.results["accuracy"] = 0.0
             super().eval(soln, trace, duration)
             return self.results
 
@@ -166,15 +163,9 @@ class MisconfigAppHotelResAnalysis(MisconfigAppHotelResBaseTask, AnalysisTask):
         self.results["system_level_correct"] = is_sys_level_correct
         self.results["fault_type_correct"] = is_fault_type_correct
         self.results["success"] = is_sys_level_correct and is_fault_type_correct
-        self.results["similarity"] = self.semantic_similarity(soln.get("root_cause", ""), "configuration file syntax error")
-
-
-        CS = 1.0 if self.results["success"] else 0.0 # Correctness Score
-        SS = (self.results["similarity"] + 1) / 2.0 # Similarity Score
-        ES = 1 / (log(self.results['TTA'] + 1) + log(self.results['steps'] + 1)) # Efficiency Score
-        TCS = 1 / log(self.results['in_tokens'] + self.results['out_tokens'] + 1) # Token Cost Score
-
-        self.results["score"] = 0.5 * CS + 0.3 * SS + 0.1 * ES + 0.1 * TCS
+        self.results["similarity"] = self.semantic_similarity(soln.get("root_cause", ""), "configuration file syntax error") # -1.0 to 1.0
+    
+        self.results["accuracy"] = (1.0 if self.results["success"] else 0.0) * 0.5 + (self.results["similarity"] + 1) / 2.0 * 0.5
 
         super().eval(soln, trace, duration)
 

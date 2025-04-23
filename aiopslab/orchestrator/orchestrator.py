@@ -13,6 +13,7 @@ from aiopslab.service.telemetry.prometheus import Prometheus
 import time
 import inspect
 import asyncio
+from math import log
 
 
 class Orchestrator:
@@ -183,6 +184,12 @@ class Orchestrator:
             total_execution_time - results[key]
         )  # Time spent doing everything besides running the agent
         print(f"Framework overhead: {framework_overhead}")
+
+        AS = results["accuracy"] / 100.0 # Accuracy Score
+        ES = 1 / (log(results[key] + 1) + log(results['steps'] + 1)) # Efficiency Score
+        TCS = 1 / log(results['in_tokens'] + results['out_tokens'] + 1) # Token Cost Score
+
+        results["score"] = 0.8 * AS + 0.1 * ES + 0.1 * TCS
 
         return {
             "history": self.session.history,
