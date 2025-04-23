@@ -7,6 +7,8 @@ import os
 from openai import OpenAI
 from pathlib import Path
 import json
+import torch
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 CACHE_DIR = Path("./cache_dir")
 CACHE_PATH = CACHE_DIR / "cache.json"

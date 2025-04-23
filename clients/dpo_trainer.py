@@ -6,11 +6,6 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from aiopslab.orchestrator.tasks.analysis import AnalysisTask
-from aiopslab.orchestrator.tasks.detection import DetectionTask
-from aiopslab.orchestrator.tasks.localization import LocalizationTask
-from aiopslab.orchestrator.tasks.mitigation import MitigationTask
-
 
 def train(history):
     model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2-0.5B-Instruct")
@@ -18,7 +13,7 @@ def train(history):
     train_dataset = load_dataset("", split="train")
 
     config = PPOConfig(
-        model_name=model_name,
+        model_name="",
         learning_rate=1.41e-5,
         batch_size=16,
         log_with=None,  # or "wandb"
@@ -46,9 +41,7 @@ def train(history):
         query_tensor = tokenizer(prompt, return_tensors="pt", truncation=True, padding=True).input_ids.to(model.device)
         response_tensor = tokenizer(response, return_tensors="pt", truncation=True, padding=True).input_ids.to(model.device)
 
-        reward = compute_reward(prompt, response)
-
-        trainer.step([query_tensor], [response_tensor], [reward])
+        trainer.step([query_tensor], [response_tensor])
 
     print("PPO training complete.")
 
