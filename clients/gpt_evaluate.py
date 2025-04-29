@@ -64,13 +64,14 @@ if __name__ == "__main__":
     orchestrator = Orchestrator()
     orchestrator.register_agent(agent, name="gpt-w-shell")
 
-    pids = ["misconfig_app_hotel_res-mitigation-1"]
+    pids = ["k8s_target_port-misconfig-localization-1", ]
     scores = []
     for pid in pids:
         problem_desc, instructs, apis = orchestrator.init_problem(pid)
         agent.init_context(problem_desc, instructs, apis)
-        result = asyncio.run(orchestrator.start_problem(max_steps=10))
-        scores.append(result["score"])
+        problem_res = asyncio.run(orchestrator.start_problem(max_steps=10))
+        results = problem_res["results"]
+        scores.append(results["score"])
     
     print(sum(scores) / len(scores))
 
