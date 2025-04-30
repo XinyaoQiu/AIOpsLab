@@ -180,20 +180,22 @@ class Orchestrator:
         total_execution_time = self.execution_end_time - self.execution_start_time
         time_keys = ["TTD", "TTL", "TTA", "TTM"]
         key = next((k for k in time_keys if k in results), None)
-        ttx_min = {"TTD": 0, "TTL": 3, "TTA": 5, "TTM": 5}
-        ttx_max = {"TTD": 5, "TTL": 10, "TTA": 15, "TTM": 20}
+        ttx_min = {"TTD": 0, "TTL": 5, "TTA": 5, "TTM": 5}
+        ttx_max = {"TTD": 5, "TTL": 15, "TTA": 15, "TTM": 20}
         step_min = {"TTD": 1, "TTL": 3, "TTA": 3, "TTM": 3}
-        step_max = {"TTD": 3, "TTL": 10, "TTA": 15, "TTM": 20}
-        token_max = {"TTD": 3000, "TTL": 5000, "TTA": 7000, "TTM": 8000}
+        step_max = {"TTD": 5, "TTL": 10, "TTA": 15, "TTM": 20}
+        token_max = {"TTD": 3000, "TTL": 12000, "TTA": 20000, "TTM": 20000}
         framework_overhead = (
             total_execution_time - results[key]
         )  # Time spent doing everything besides running the agent
         print(f"Framework overhead: {framework_overhead}")
 
-        AS = results["accuracy"] / 100.0 # Accuracy Score
-        ES = (results[key] - ttx_min[key]) / (ttx_max[key] - ttx_min[key]) # Efficiency Score
-        SS = (results["steps"] - step_min[key]) / (step_max[key] - step_min[key]) # Step Score
-        TCS = log(results["in_tokens"] + results["out_tokens"] + 1) / log(token_max[key] + 1) # Token Cost Score
+        AS = results["accuracy"] # Accuracy Score
+        ES = 1- (results[key] - ttx_min[key]) / (ttx_max[key] - ttx_min[key]) # Efficiency Score
+        SS = 1- (results["steps"] - step_min[key]) / (step_max[key] - step_min[key]) # Step Score
+        TCS = 1- log(results["in_tokens"] + results["out_tokens"] + 1) / log(token_max[key] + 1) # Token Cost Score
+
+        print(f"AS = {AS}, ES = {ES}, SS = {SS}, TCS = {TCS}")
 
         results["score"] = 0.7 * AS + 0.1 * ES + 0.1 * SS + 0.1 * TCS
 

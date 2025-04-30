@@ -64,7 +64,41 @@ if __name__ == "__main__":
     orchestrator = Orchestrator()
     orchestrator.register_agent(agent, name="gpt-w-shell")
 
-    pids = ["k8s_target_port-misconfig-localization-1", ]
+    pids = [
+        "k8s_target_port-misconfig-localization-1",
+        "k8s_target_port-misconfig-localization-2",
+        "k8s_target_port-misconfig-localization-3",
+        "auth_miss_mongodb-localization-1",
+        "revoke_auth_mongodb-localization-1",
+        "revoke_auth_mongodb-localization-2",
+        "user_unregistered_mongodb-localization-1",
+        "user_unregistered_mongodb-localization-2",
+        "misconfig_app_hotel_res-localization-1",
+        "scale_pod_zero_social_net-localization-1",
+        "assign_to_non_existent_node_social_net-localization-1",
+        "container_kill-localization",
+        "pod_failure_hotel_res-localization-1",
+        "pod_kill_hotel_res-localization-1",
+        "network_loss_hotel_res-localization-1",
+        "network_delay_hotel_res-localization-1",
+        "astronomy_shop_ad_service_failure-localization-1",
+        "astronomy_shop_ad_service_high_cpu-localization-1",
+        "astronomy_shop_ad_service_manual_gc-localization-1",
+        "astronomy_shop_cart_service_failure-localization-1",
+        "astronomy_shop_image_slow_load-localization-1",
+        "astronomy_shop_kafka_queue_problems-localization-1",
+        "astronomy_shop_loadgenerator_flood_homepage-localization-1",
+        "astronomy_shop_payment_service_failure-localization-1",
+        "astronomy_shop_payment_service_unreachable-localization-1",
+        "astronomy_shop_product_catalog_service_failure-localization-1",
+        "astronomy_shop_recommendation_service_cache_failure-localization-1",
+        "wrong_bin_usage-localization-1",
+        "operator_overload_replicas-localization-1",
+        "operator_non_existent_storage-localization-1",
+        "operator_invalid_affinity_toleration-localization-1",
+        "operator_security_context_fault-localization-1",
+        "operator_wrong_update_strategy-localization-1",
+    ]
     scores = []
     for pid in pids:
         problem_desc, instructs, apis = orchestrator.init_problem(pid)
