@@ -13,7 +13,7 @@ from utils.llm import GPT4Turbo
 from utils.templates import DOCS_SHELL_ONLY
 import sys
 import os
-import dpo_trainer
+import ppo_trainer
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -80,6 +80,6 @@ if __name__ == "__main__":
 
     print(answer["results"])
 
-    # agent.history.append(result)
+    agent.history.append(answer)
     
-    # dpo_trainer.train(agent.history)
+    ppo_trainer.train(agent.history)

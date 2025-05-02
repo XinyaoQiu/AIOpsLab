@@ -24,8 +24,9 @@ azure-identity = "^1.19.0"
 azure-ai-ml = "^1.22.1"
 paramiko = "^3.5.0"
 datasets = "^3.5.1"
-trl = "^0.17.0"
 sentence-transformers = "^4.1.0"
+trl = "^0.17.0"
+transformers = "^4.51.3"
 
 
 [build-system]
