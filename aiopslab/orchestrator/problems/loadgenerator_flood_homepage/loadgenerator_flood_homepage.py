@@ -9,6 +9,7 @@ from aiopslab.service.apps.astronomy_shop import AstronomyShop
 from aiopslab.generators.fault.inject_otel import OtelFaultInjector
 from aiopslab.session import SessionItem
 
+from math import log
 
 class LoadGeneratorFloodHomepageBaseTask:
     def __init__(self):
@@ -76,6 +77,7 @@ class LoadGeneratorFloodHomepageLocalization(
             self.add_result("Localization Accuracy", 0.0)
             self.results["success"] = False
             self.results["is_subset"] = False
+            self.results["accuracy"] = 0.0
             super().eval(soln, trace, duration)
             return self.results
 
@@ -99,5 +101,6 @@ class LoadGeneratorFloodHomepageLocalization(
 
         self.results["success"] = is_exact or (is_sub and len(soln) == 1)
         self.results["is_subset"] = is_sub
+        self.results["accuracy"] = accuracy / 100.0
 
         return self.results

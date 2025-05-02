@@ -73,11 +73,13 @@ if __name__ == "__main__":
     orchestrator = Orchestrator()
     orchestrator.register_agent(agent, name="gpt-w-shell")
 
-    pid = "misconfig_app_hotel_res-mitigation-1"
+    pid = "misconfig_app_hotel_res-analysis-1"
     problem_desc, instructs, apis = orchestrator.init_problem(pid)
     agent.init_context(problem_desc, instructs, apis)
-    result = asyncio.run(orchestrator.start_problem(max_steps=10))
+    answer = asyncio.run(orchestrator.start_problem(max_steps=10))
+
+    print(answer["results"])
+
+    # agent.history.append(result)
     
-    agent.history.append(result)
-    
-    dpo_trainer.train(agent.history)
+    # dpo_trainer.train(agent.history)

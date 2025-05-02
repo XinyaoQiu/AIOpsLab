@@ -16,6 +16,7 @@ from aiopslab.paths import TARGET_MICROSERVICES
 
 from .helpers import get_frontend_url
 
+from math import log
 
 class K8STargetPortMisconfigBaseTask:
     def __init__(self, faulty_service: str = "user-service"):
@@ -98,6 +99,7 @@ class K8STargetPortMisconfigLocalization(
             self.add_result("Localization Accuracy", 0.0)
             self.results["success"] = False
             self.results["is_subset"] = False
+            self.results["accuracy"] = 0.0
             super().eval(soln, trace, duration)
             return self.results
 
@@ -124,6 +126,7 @@ class K8STargetPortMisconfigLocalization(
 
         self.results["success"] = is_exact or (is_sub and len(soln) == 1)
         self.results["is_subset"] = is_sub
+        self.results["accuracy"] = accuracy / 100.0
 
         return self.results
 
@@ -143,6 +146,7 @@ class K8STargetPortMisconfigAnalysis(K8STargetPortMisconfigBaseTask, AnalysisTas
             self.results["system_level_correct"] = False
             self.results["fault_type_correct"] = False
             self.results["success"] = False
+            self.results["accuracy"] = 0.0
             super().eval(soln, trace, duration)
             return self.results
 
@@ -156,6 +160,9 @@ class K8STargetPortMisconfigAnalysis(K8STargetPortMisconfigBaseTask, AnalysisTas
         self.results["system_level_correct"] = is_sys_level_correct
         self.results["fault_type_correct"] = is_fault_type_correct
         self.results["success"] = is_sys_level_correct and is_fault_type_correct
+        self.results["similarity"] = self.semantic_similarity(soln.get("root_cause", ""), "Virtualization configuration file syntax error") # TODO: use a more concrete metric
+
+        self.results["accuracy"] = (1.0 if self.results["success"] else 0.0) * 0.5 + (self.results["similarity"] + 1) / 2.0 * 0.5
 
         super().eval(soln, trace, duration)
 
