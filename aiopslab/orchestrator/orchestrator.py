@@ -180,10 +180,10 @@ class Orchestrator:
         total_execution_time = self.execution_end_time - self.execution_start_time
         time_keys = ["TTD", "TTL", "TTA", "TTM"]
         key = next((k for k in time_keys if k in results), None)
-        ttx_min = {"TTD": 0, "TTL": 5, "TTA": 5, "TTM": 5}
-        ttx_max = {"TTD": 5, "TTL": 15, "TTA": 15, "TTM": 20}
-        step_min = {"TTD": 1, "TTL": 3, "TTA": 3, "TTM": 3}
-        step_max = {"TTD": 5, "TTL": 10, "TTA": 15, "TTM": 20}
+        ttx_min = {"TTD": 0, "TTL": 0, "TTA": 0, "TTM": 0}
+        ttx_max = {"TTD": 50, "TTL": 50, "TTA": 50, "TTM": 50}
+        step_min = {"TTD": 1, "TTL": 1, "TTA": 1, "TTM": 1}
+        step_max = {"TTD": 10, "TTL": 10, "TTA": 10, "TTM": 10}
         token_max = {"TTD": 3000, "TTL": 12000, "TTA": 20000, "TTM": 20000}
         framework_overhead = (
             total_execution_time - results[key]
