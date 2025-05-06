@@ -4,7 +4,6 @@ from utils.llm import GPT4Turbo
 from utils.templates import DOCS_SHELL_ONLY
 import sys
 import os
-import dpo_trainer
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
