@@ -32,7 +32,7 @@ def train(history):
         prompt_response_pairs.append((user_msg, assistant_msg))
 
     final_result = history[-1] if isinstance(history[-1], dict) and "results" in history[-1] else {}
-    score = final_result.get("results", {}).get("TTD", 0.0)  # Time to detect, as example reward
+    score = final_result.get("results", {}).get("score", 0.0)  # Time to detect, as example reward
     success = final_result.get("final_state") == "VALID_SUBMISSION"
 
 
@@ -41,7 +41,7 @@ def train(history):
         query_tensor = tokenizer(prompt, return_tensors="pt", truncation=True, padding=True).input_ids.to(model.device)
         response_tensor = tokenizer(response, return_tensors="pt", truncation=True, padding=True).input_ids.to(model.device)
 
-        trainer.step([query_tensor], [response_tensor])
+        trainer.step([query_tensor], [response_tensor], score)
 
     print("PPO training complete.")
 

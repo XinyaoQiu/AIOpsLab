@@ -107,6 +107,6 @@ if __name__ == "__main__":
         results = problem_res["results"]
         scores.append(results["score"])
     
-    print(sum(scores) / len(scores))
+    print(sum(scores) / len(scores)) # score = 0.333
 
 

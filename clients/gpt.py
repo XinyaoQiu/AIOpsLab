@@ -78,8 +78,8 @@ if __name__ == "__main__":
     agent.init_context(problem_desc, instructs, apis)
     answer = asyncio.run(orchestrator.start_problem(max_steps=10))
 
-    print(answer["results"])
+    print(answer["results"]) # score 0.5
 
-    # agent.history.append(result)
+    agent.history.append(answer)
     
-    # dpo_trainer.train(agent.history)
+    dpo_trainer.train(agent.history)
