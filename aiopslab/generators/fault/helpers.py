@@ -100,6 +100,7 @@ def get_pids_by_name(search_term):
         # Filter the output for lines containing the search term
         matching_pids = []
         for line in result.stdout.splitlines():
+            # print(line)
             parts = line.split(maxsplit=1)
             if len(parts) == 2:  # Ensure we have both PID and command
                 pid, command = parts
